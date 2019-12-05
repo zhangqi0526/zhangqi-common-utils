@@ -10,6 +10,7 @@ import java.util.Date;
  * @date:   2019年12月5日 下午1:23:19
  */
 public class DateUtil {
+	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 根据生日计算年龄
 	 * @param birthDate
@@ -45,7 +46,6 @@ public class DateUtil {
 	 * @return
 	 */
 	public static int getAge(String birthDateStr) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthDate = null;
 		try {
 			//解析日期字符串为Date对象
@@ -56,8 +56,42 @@ public class DateUtil {
 		//调用日期计算方法
 		return getAge(birthDate);
 	}
+	/**
+	 * @Title: getDayNum   
+	 * @Description: 获取开始日期和结束日期之间有多少天   
+	 * @param: @param startDate
+	 * @param: @param endDate
+	 * @param: @return      
+	 * @return: int      
+	 * @throws
+	 */
+	public static int getDayNum(Date date1,Date date2) {
+		//一天有多少毫秒
+		Long dayTime = 1000*60*60*24L;
+		Long startTime = date1.getTime();
+		Long endTime = date2.getTime();
+//		System.out.println(startTime);
+//		System.out.println(endTime);
+		Double dayNum = Math.abs(((endTime-startTime)/dayTime*1.0));
+//		dayNum = Math.ceil(dayNum);
+//		System.out.println(dayNum);
+		return dayNum.intValue()+1;
+	}
+	/**
+	 * @Title: getDayNum   
+	 * @Description: 计算指定日期距离今天，过去了多少天或还有多少天   
+	 * @param: @param date
+	 * @param: @return      
+	 * @return: int      
+	 * @throws
+	 */
+	public static int getDayNum(Date date) {
+		Date date2 = new Date();
+		return getDayNum(date,date2);
+	}
 	
-	public static void main(String[] args) {
-		System.out.println(getAge("1980-02-30"));
+	public static void main(String[] args) throws ParseException {
+		Date endDate = simpleDateFormat.parse("2019-11-32");
+		System.out.println(getDayNum(endDate));
 	}
 }
