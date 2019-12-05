@@ -25,6 +25,15 @@ public class StringUtil {
 		return true;
 	}
 	/**
+	 * 判断字符串不为空
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNotBlank(String str) {
+		return !isBlank(str);
+	}
+	
+	/**
 	 * 判断字符串是否为手机号
 	 * @param str
 	 * @return
