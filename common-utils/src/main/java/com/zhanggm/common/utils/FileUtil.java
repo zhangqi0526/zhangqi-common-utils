@@ -30,10 +30,4 @@ public class FileUtil {
 		return System.getProperty("user.home");
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(getExtName("aaajpg"));
-		String property = System.getProperty("JAVA_HOME");
-		String javaHome = System.getenv("JAVA_HOME");
-		System.out.println(javaHome);
-	}
 }
