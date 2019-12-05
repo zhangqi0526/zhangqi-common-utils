@@ -1,8 +1,5 @@
 package com.zhanggm.common.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class StringUtil {
 	/**
 	 * @Title: isBlank   
@@ -25,26 +22,28 @@ public class StringUtil {
 		return true;
 	}
 	/**
-	 * 判断字符串不为空
-	 * @param str
-	 * @return
+	 * @Title: isNotBlank   
+	 * @Description: 字符串内容不为空，返回true   
+	 * @param: @param str
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
 	 */
 	public static boolean isNotBlank(String str) {
 		return !isBlank(str);
 	}
 	
 	/**
-	 * 判断字符串是否为手机号
-	 * @param str
-	 * @return
+	 * @Title: isPhoneNum   
+	 * @Description: 判断字符串是否为手机号   
+	 * @param: @param str
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
 	 */
 	public static boolean isPhoneNum(String str) {
 		String regex = "1[3578]\\d{9}";
 		return str.matches(regex);
 	}
 	
-	
-	public static void main(String[] args) {
-		System.out.println(isPhoneNum("1818106007"));
-	}
 }
