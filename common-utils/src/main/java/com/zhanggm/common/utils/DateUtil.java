@@ -1,5 +1,7 @@
 package com.zhanggm.common.utils;
 
+import static org.hamcrest.CoreMatchers.endsWith;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +13,7 @@ import java.util.Date;
  */
 public class DateUtil {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
 	 * 根据生日计算年龄
 	 * @param birthDate
@@ -130,13 +132,27 @@ public class DateUtil {
 	 * @throws
 	 */
 	public static boolean isInWeek(Date theDate) {
+		Date nowDate = new Date();
 		Calendar c = Calendar.getInstance();
-		int nowYear = c.get(Calendar.YEAR);
-		int nowWeek = c.get(Calendar.WEEK_OF_YEAR);
-		c.setTime(theDate);
-		int theYear = c.get(Calendar.YEAR);
-		int theWeek = c.get(Calendar.WEEK_OF_YEAR);
-		return nowYear==theYear && nowWeek==theWeek;
+		c.setTime(nowDate);
+		//本周的第几天
+		int dayofweek = c.get(Calendar.DAY_OF_WEEK);
+		//设置本周第一天的时间
+		c.add(Calendar.DAY_OF_YEAR, 1-dayofweek);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		Date firstDate = c.getTime();
+		System.out.println(dateTimeFormat.format(firstDate));
+		//设置本周最后一天的时间
+		c.add(Calendar.DAY_OF_YEAR, 6);
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
+		Date lastDate = c.getTime();
+		System.out.println(dateTimeFormat.format(theDate));
+		System.out.println(dateTimeFormat.format(lastDate));
+		return compareTime(theDate,firstDate)>=0 && compareTime(theDate,lastDate)<=0;
 	}
 	/**
 	 * @Title: getFirstDateInMonth   
@@ -201,5 +217,12 @@ public class DateUtil {
 		}
 		return -1;
 		
+	}
+	
+	public static void main(String[] args) throws ParseException {
+		Date firstDateInMonth = getLastDateInMonth(new Date());
+		System.out.println();
+		Date theDate = dateFormat.parse("2019-12-20");
+		System.out.println(isInWeek(theDate));
 	}
 }
