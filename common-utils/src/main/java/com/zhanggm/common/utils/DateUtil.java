@@ -10,7 +10,8 @@ import java.util.Date;
  * @date:   2019年12月5日 下午1:23:19
  */
 public class DateUtil {
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	/**
 	 * 根据生日计算年龄
 	 * @param birthDate
@@ -49,7 +50,7 @@ public class DateUtil {
 		Date birthDate = null;
 		try {
 			//解析日期字符串为Date对象
-			birthDate = simpleDateFormat.parse(birthDateStr);
+			birthDate = dateFormat.parse(birthDateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -89,9 +90,122 @@ public class DateUtil {
 		Date date2 = new Date();
 		return getDayNum(date,date2);
 	}
+	/**
+	 * @Title: isToday   
+	 * @Description: 验证指定日期是否为今天   
+	 * @param: @param theDate
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
+	 */
+	public static boolean isToday(Date theDate) {
+		Date nowDate = new Date();
+		String nowDateStr = dateFormat.format(nowDate);
+		String theDateStr = dateFormat.format(theDate);
+		return nowDateStr.equals(theDateStr);
+	}
+	/**
+	 * @Title: isToday   
+	 * @Description: 验证指定日期是否为今天    
+	 * @param: @param theDateStr "2019-11-30"
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
+	 */
+	public static boolean isToday(String theDateStr) {
+		try {
+			Date theDate = dateFormat.parse(theDateStr);
+			return isToday(theDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	/**
+	 * @Title: isInWeek   
+	 * @Description: 判断指定日期是否在本周   
+	 * @param: @param theDate
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
+	 */
+	public static boolean isInWeek(Date theDate) {
+		Calendar c = Calendar.getInstance();
+		int nowYear = c.get(Calendar.YEAR);
+		int nowWeek = c.get(Calendar.WEEK_OF_YEAR);
+		c.setTime(theDate);
+		int theYear = c.get(Calendar.YEAR);
+		int theWeek = c.get(Calendar.WEEK_OF_YEAR);
+		return nowYear==theYear && nowWeek==theWeek;
+	}
+	/**
+	 * @Title: getFirstDateInMonth   
+	 * @Description: 获取指定日期月份的第一天 
+	 * 2019-12-04 12:22:45  -> 2019-12-01 00:00:00
+	 * @param: @param theDate
+	 * @param: @return      
+	 * @return: boolean      
+	 * @throws
+	 */
+	public static Date getFirstDateInMonth(Date theDate) {
+		/*SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-01 00:00:00");
+		String dateStr = format.format(theDate);
+		try {
+			return format.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}*/
+		Calendar c = Calendar.getInstance();
+		c.setTime(theDate);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		return c.getTime();
+	}
+	/**
+	 * @Title: getLastDateInMonth   
+	 * @Description: 获得指定日期的最后一天    
+	 * 2019-12-04 12:22:45  -> 2019-12-31 23:59:59
+	 * @param: @param theDate
+	 * @param: @return      
+	 * @return: Date      
+	 * @throws
+	 */
+	public static Date getLastDateInMonth(Date theDate) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(theDate);
+		c.add(Calendar.MONTH, 1);
+		Date firstDateInMonth = getFirstDateInMonth(c.getTime());
+		c.setTime(firstDateInMonth);
+		c.add(Calendar.SECOND, -1);
+		return c.getTime();
+	}
+	/**
+	 * @Title: compareTime   
+	 * @Description: TODO(描述这个方法的作用)   
+	 * @param: @param date1
+	 * @param: @param date2
+	 * @param: @return      
+	 * @return: int      
+	 * @throws
+	 */
+	public static int compareTime(Date date1,Date date2) {
+		long time1 = date1.getTime();
+		long time2 = date2.getTime();
+		if(time1==time2) {
+			return 0;
+		}
+		if(time1>time2) {
+			return 1;
+		}
+		return -1;
+		
+	}
 	
 	public static void main(String[] args) throws ParseException {
-		Date endDate = simpleDateFormat.parse("2019-11-32");
-		System.out.println(getDayNum(endDate));
+		Date date1 = dateTimeFormat.parse("2019-12-05 13:34:33");
+		Date date2 = dateTimeFormat.parse("2019-12-05 14:33:33");
+		System.out.println(compareTime(date1, date2));
 	}
 }

@@ -48,7 +48,7 @@ public class FileUtil {
 	 */
 	@SuppressWarnings("resource")
 	public static String readTextFileByLine(String pathname) {
-		BufferedReader br;
+		BufferedReader br = null;
 		StringBuffer sb = new StringBuffer();
 		try {
 			br = new BufferedReader(new FileReader(new File(pathname)));
@@ -62,6 +62,8 @@ public class FileUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			StreamUtil.closeAll(br);
 		}
 		return sb.toString();
 	}
@@ -75,7 +77,7 @@ public class FileUtil {
 	 */
 	@SuppressWarnings("resource")
 	public static List<String> readTextFileOfList(String pathname) {
-		BufferedReader br;
+		BufferedReader br = null;
 		List<String> strList = new ArrayList<>();
 		try {
 			br = new BufferedReader(new FileReader(new File(pathname)));
@@ -88,12 +90,62 @@ public class FileUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			StreamUtil.closeAll(br);
 		}
 		return strList;
 	}
+	/**
+	 * @Title: deleteFile   
+	 * @Description: 递归删除文件   
+	 * @param: @param file      
+	 * @return: void      
+	 * @throws
+	 */
+	public static void deleteFile(File file) {
+		if(file.isDirectory()) {
+			File[] listFiles = file.listFiles();
+			for(File theFile:listFiles) {
+				deleteFile(theFile);
+			}
+			file.delete();
+		}else {
+			file.delete();
+		}
+	}
+	/**
+	 * @Title: deleteFile   
+	 * @Description: 递归删除文件  
+	 * @param: @param filePath      
+	 * @return: void      
+	 * @throws
+	 */
+	public static void deleteFile(String filePath) {
+		deleteFile(new File(filePath));
+	}
+	/**
+	 * @Title: getFileSize   
+	 * @Description: 获得文件大小
+	 * 返回文件以指定单位大小表示
+	 * File a.txt=2k  
+	 * @param: @param file
+	 * @param: @return      
+	 * @return: String      
+	 * @throws
+	 */
+	public static String getFileSize(File file) {
+		long length = file.length();
+		return Math.round((length/1024.0))+"kb";
+	}
+	
+	public static String getFileSize(String fileFullName) {
+		return getFileSize(new File(fileFullName));
+	}
 	
 	public static void main(String[] args) {
-		System.out.println(readTextFileByLine("C:\\Users\\Administrator\\Desktop\\pom.xml"));
+//		System.out.println(readTextFileByLine("C:\\Users\\Administrator\\Desktop\\pom.xml"));
+//		deleteFile("C:\\Users\\Administrator\\Desktop\\fileTest");
+		System.out.println(getFileSize("C:\\Users\\Administrator\\Desktop\\pom.xml"));
 	}
 	
 }
