@@ -39,6 +39,16 @@ public class FileUtil {
 		return System.getProperty("user.home");
 	}
 	/**
+	 * @Title: getSystemTempDirectory   
+	 * @Description: 操作系统临时目录
+	 * @param: @return      
+	 * @return: String      
+	 * @throws
+	 */
+	public static String getSystemTempDirectory() {
+		return System.getProperty("java.io.tmpdir");
+	}
+	/**
 	 * @Title: readTextFileByLine   
 	 * @Description: 读取文件内容   
 	 * @param: @param pathname
@@ -46,7 +56,6 @@ public class FileUtil {
 	 * @return: String      
 	 * @throws
 	 */
-	@SuppressWarnings("resource")
 	public static String readTextFileByLine(String pathname) {
 		BufferedReader br = null;
 		StringBuffer sb = new StringBuffer();
@@ -75,7 +84,6 @@ public class FileUtil {
 	 * @return: List<String>      
 	 * @throws
 	 */
-	@SuppressWarnings("resource")
 	public static List<String> readTextFileOfList(String pathname) {
 		BufferedReader br = null;
 		List<String> strList = new ArrayList<>();
@@ -135,7 +143,9 @@ public class FileUtil {
 	 */
 	public static String getFileSize(File file) {
 		long length = file.length();
-		return Math.round((length/1024.0))+"kb";
+		double len = length/1024.0;
+//		return Math.round((length/1024.0))+"kb";
+		return String.format("%.2f",len)+"kb";
 	}
 	
 	public static String getFileSize(String fileFullName) {
@@ -143,9 +153,7 @@ public class FileUtil {
 	}
 	
 	public static void main(String[] args) {
-//		System.out.println(readTextFileByLine("C:\\Users\\Administrator\\Desktop\\pom.xml"));
-//		deleteFile("C:\\Users\\Administrator\\Desktop\\fileTest");
-		System.out.println(getFileSize("C:\\Users\\Administrator\\Desktop\\pom.xml"));
+		System.out.println(getSystemTempDirectory());
 	}
 	
 }

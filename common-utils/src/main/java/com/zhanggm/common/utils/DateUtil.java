@@ -202,10 +202,4 @@ public class DateUtil {
 		return -1;
 		
 	}
-	
-	public static void main(String[] args) throws ParseException {
-		Date date1 = dateTimeFormat.parse("2019-12-05 13:34:33");
-		Date date2 = dateTimeFormat.parse("2019-12-05 14:33:33");
-		System.out.println(compareTime(date1, date2));
-	}
 }
