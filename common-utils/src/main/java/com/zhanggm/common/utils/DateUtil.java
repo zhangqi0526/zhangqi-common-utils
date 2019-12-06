@@ -1,7 +1,5 @@
 package com.zhanggm.common.utils;
 
-import static org.hamcrest.CoreMatchers.endsWith;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
