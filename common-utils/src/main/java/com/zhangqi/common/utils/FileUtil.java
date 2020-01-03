@@ -86,12 +86,16 @@ public class FileUtil {
 	 */
 	public static List<String> readTextFileOfList(String pathname) {
 		BufferedReader br = null;
+		String str = null;
 		List<String> strList = new ArrayList<>();
 		try {
 			br = new BufferedReader(new FileReader(new File(pathname)));
-			do {
+			/*do {
 				strList.add(br.readLine());
-			}while(br.read()!=-1);
+			}while(br.read()!=-1);*/
+			while((str=br.readLine())!=null) {
+				strList.add(str);
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;

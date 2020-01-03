@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 public class StringUtil {
+	
 	/**
 	 * @Title: isBlank   
 	 * @Description: 判断字符串是否为空  
